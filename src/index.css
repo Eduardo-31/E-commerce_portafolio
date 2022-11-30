@@ -1,0 +1,47 @@
+:root {
+  --color-primary: #ff6e4e;
+  --color-secondary: #283148;
+  --color-secondary: #010035;
+}
+  
+* {
+  box-sizing: border-box;
+}
+
+body{
+  margin: 0;
+  font-family: 'Roboto Slab', serif;
+  background-color: #f6f6f6;
+}
+
+h1, h2, h3, h4, p, ul {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0; 
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  border: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+.E-commerce {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  padding: 7px 0;
+}

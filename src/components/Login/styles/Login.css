@@ -1,0 +1,445 @@
+.container-login {
+    background-color: var(--color-primary);
+    padding: 80px 0;
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+}
+
+.login-card {
+    background-color: #ffff;
+    padding: 20px;
+    position: relative;
+    width: 300px;
+    border-radius: 10px;
+}
+
+.login__circle {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: -52px;
+    margin-bottom: 20px;
+    box-shadow: 0px -2px 5px 0px rgba(200, 199, 199, 0.483);
+}
+
+.login__circle > i {
+    font-size: 1.6rem;
+    color: #fff;
+}
+
+.login__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login__header {
+    display: flex;
+    flex-direction: column;
+    border: solid 1px rgb(234, 231, 231);
+    padding: 10px;
+}
+
+.login__header__title {
+   font-size: 1rem;
+   color: gray;
+   font-weight: 600;
+   text-align: center;
+   margin-bottom: 5px;
+}
+
+.login__header__subtitle {
+   font-size: 15px;
+   color: gray;
+   font-weight: 400;
+   display: flex;
+   gap: 10px;
+}
+
+.login__header__subtitle > span {
+   font-size: 15px;
+   color: gray;
+   font-weight: 500;
+}
+
+.login__form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.login__label {
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgb(62, 61, 61);
+}
+
+
+.login__input {
+    padding: 5px 2px;
+    margin-bottom: 6px;
+    border: none;
+    border-bottom: solid 1px rgb(12, 12, 12);
+    font-size: 1rem;
+}
+
+.login__btn {
+    padding: 11px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: var(--color-primary);
+    color: #fff;
+    border-radius: 22px;
+    margin-top: 15px;
+    width: 100%;
+    cursor: pointer;
+    transition: .2s ease-out;
+}
+
+.login__btn:hover {
+    transition: .2s ease;
+    box-shadow: 0px 0px 10px 0px var(--color-primary);
+}
+
+.login__footer {
+    margin-top: 13px;
+    font-size: 14px;
+    color: rgb(29, 28, 28);
+}
+
+.login__footer > p > span {
+    font-size: 14px;
+    color: var(--color-secondary);
+    font-weight: 500;
+}
+
+
+.login__invalid {
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: -2px;
+    margin-top: -5px;
+    font-weight: 400;
+    color: rgb(28, 27, 27);
+    opacity: 0;
+    transition: 80ms ease;
+}
+
+.login__invalid-opacity {
+    transition: 100ms ease;
+    opacity: 1;
+}
+
+
+/* ============= LOGGED =========== */
+
+.logged-card {
+    background-color: var(--color-primary);
+    padding: 20px 25px 32px 25px;
+    background-color: #fff;
+    min-width: 260px;
+    box-shadow: 2.5px 3px 10px 2px rgb(234, 233, 233);
+    border-radius: 10px;
+}
+
+.logged__header {
+    position: relative;
+    left: calc(100% - 12px);
+    font-size: 1.1rem;
+    color: var(--color-secondary);
+    margin-bottom: 12px;
+    background-color: transparent;
+}
+
+.logged__title {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: 500;
+    color: rgb(61, 60, 60);
+}
+
+.logged__image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 110px;
+}
+
+.logged__image img {
+    width: 110px
+}
+
+.logged__name {
+    font-size: 1.1rem;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.logged__footer {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.logged__btn-purchases {
+    cursor: pointer;
+    min-width: 100px;
+    font-size: 13px;
+    padding: 8px 10px;
+    border-radius: 20px;
+    background: rgb(40, 102, 197);
+    color: white;
+}
+
+.logged__btn-shop {
+    cursor: pointer;
+    min-width: 100px;
+    font-size: 13px;
+    padding: 8px 10px;
+    border-radius: 20px;
+    background: #27AE62;
+    color: white;
+}
+
+
+
+
+@media (min-width: 500px) {
+    
+    .login-card {
+        width: 320px;
+    }
+
+    .logged-card {
+        padding: 20px 25px 32px 25px;
+        min-width: 290px;
+    }
+    
+}
+
+@media (min-width: 769px) {
+
+    .container-login {
+        padding: 99px;
+    }
+    
+    .login-card {
+        width: 340px;
+        padding: 20px 25px 25px 25px;
+    }
+
+    
+    .login__invalid {
+        font-size: 15px;
+        margin-bottom: -3px;
+        margin-top: -6px;
+    }
+
+    .logged-card {
+        padding: 20px 25px 32px 25px;
+        min-width: 310px;
+    }
+    
+}
+
+
+@media (min-width: 992px) {
+    
+    .login-card {
+        width: 360px;
+    }
+    
+    .logged-card {
+        padding: 25px 25px 36px 25px;
+        min-width: 340px;
+    }
+
+    .logged__header {
+        left: calc(100% - 17px);
+    }
+
+    .logged__btn-purchases, .logged__btn-shop {
+        padding: 9px 10px;
+        min-width: 110px;
+    }
+    
+}
+
+@media (min-width: 1200px) {
+
+    .container-login {
+        padding: 115px 0;
+    }
+    
+    .login-card {
+        width: 395px;
+    }
+    
+    .login__circle {
+        width: 70px;
+        height: 70px;
+        margin-top: -55px;
+    }
+
+    .login__circle > i {
+        font-size: 1.8rem;
+    }
+
+    .login__title {
+        font-size: 1.8rem;
+    }
+
+    .login__header__title {
+        font-size: 1.1rem;
+    }
+
+    .login__header {
+        padding: 13px  11px;
+    }
+
+    .login__header__subtitle {
+        font-size: 1rem;
+    }
+
+    .login__header__subtitle > span {
+        font-size: 1rem;
+    }
+
+    .login__label {
+        font-size: 1.1rem;
+    }
+
+    .login__input {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: rgb(91, 88, 88);
+        padding: 7px 2px;
+        margin-bottom: 12px;
+    }
+
+    .login__btn {
+        font-size: 1.2rem;
+        padding: 13px 0;
+        font-weight: 500;
+    }
+
+    .login__footer {
+        font-size: 16px;
+        margin-top: 15px;
+    }
+    .login__footer > p > span {
+        font-size: 16px;
+    }
+
+    .login__invalid {
+        font-size: 1rem;
+        margin-bottom: 3px;
+        margin-top: -10px;
+    }
+
+    
+
+    .logged-card {
+        padding: 25px 25px 40px 25px;
+        min-width: 410px;
+    }
+
+    .logged__header {
+        font-size: 1.4rem;
+        left: calc(100% - 22px);
+    }
+    
+    .logged__title {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .logged__image {
+        min-height: 130px;
+    }
+
+    .logged__image > img {
+        width: 130px;
+    }
+
+    .logged__name {
+        font-size: 1.3rem;
+        margin-top: 20px;
+    }
+
+    .logged__footer {
+        margin-top: 40px;
+        gap: 32px;
+    }
+
+    .logged__btn-purchases, .logged__btn-shop {
+        padding: 10px 10px;
+        min-width: 127px;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+
+}
+
+@media (min-width: 1550px) {
+
+    .login-card {
+        width: 410px;
+    }
+
+
+    .logged-card {
+        padding: 40px 30px 60px 30px;
+        min-width: 470px;
+    }
+
+    .logged__header {
+        font-size: 1.6rem;
+        left: calc(100% - 32px);
+        margin-top: -10px;
+        margin-bottom: 14px;
+    }
+    
+    .logged__title {
+        font-size: 1.7rem;
+        margin-bottom: 32px;
+    }
+
+    .logged__image {
+        min-height: 140px;
+    }
+
+    .logged__image > img {
+        width: 140px;
+    }
+
+    .logged__name {
+        font-size: 1.4rem;
+        margin-top: 22px;
+    }
+
+    .logged__footer {
+        margin-top: 50px;
+        gap: 35px;
+    }
+
+    .logged__btn-purchases, .logged__btn-shop {
+        padding: 11px 10px;
+        min-width: 145px;
+        font-size: 1rem;
+    }
+
+
+}

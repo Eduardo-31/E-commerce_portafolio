@@ -1,0 +1,314 @@
+
+
+.banner {
+    display: flex;
+    overflow: hidden;
+    padding: 10px 0 0 0;
+    background-color: #111111;
+}
+
+.banner__text {
+    width: 33%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: -8px;
+    position: relative;
+    padding-right: 4px; 
+
+}
+
+.banner__ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: max-content;
+}
+
+.banner__title {
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+}
+
+.banner__subtitle {
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.banner__btn {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-secondary);
+    width: 100%;
+    padding: 3.5px 0;
+    border-radius: 5px;
+    margin-top: 12px;
+    cursor: pointer;
+}
+
+.banner__btn:hover {
+    box-shadow: 0px 0px 14px 2px rgba(240, 248, 255, 0.565);
+}
+
+
+
+
+.banner__img {
+    width: 67%;
+}
+
+.banner__img img {
+    width: 100%;
+}
+
+
+@media (min-width: 360px){
+
+    .banner__text {
+        width: 30%;
+        padding-right: 1.5px;  
+    }
+
+    .banner__img {
+        width: 70%;
+    }
+
+    .banner__title {
+        font-size: 14px;
+    }
+    
+    .banner__subtitle {
+        font-size: 10.5px;
+    }
+
+
+}
+
+@media (min-width: 400px ){
+    .banner__text {
+        padding-right: 6px;
+    }
+}
+
+
+
+@media (min-width: 435px){
+
+   .banner__title {
+        font-size: 1.1rem;
+   }
+
+   .banner__subtitle {
+        font-size: 13px;
+   }
+
+   .banner__btn {
+        padding: 4.2px 0;
+        font-size: 12.5px;
+   }
+
+}
+
+
+@media (min-width: 550px){
+
+    .banner__text {
+        padding-right: 10px;
+    }
+
+
+    .banner {
+        width: 90%;
+        margin: 0 auto;
+        border-radius: 7px;
+    }
+
+    .banner__btn {
+        margin-top: 19px;
+        padding: 5.2px 0;
+    }
+    
+
+}
+
+@media (min-width: 625px){
+
+    .banner {
+        width: 90%;
+        margin: 0 auto;
+        border-radius: 7px;
+    }
+
+    .banner__text {
+        padding-right: 14px;
+    }
+
+    .banner__ul {
+        gap: 10px;
+    }
+
+    .banner__btn {
+        margin-top: 19px;
+        padding: 5.1px 0;
+    }
+
+    .banner__title {
+        font-size: 1.4rem;
+   }
+
+   .banner__subtitle {
+        font-size: 15px;
+   }
+
+    .banner__btn {
+        padding: 4.2px 0;
+        font-size: 15px;
+    }
+
+}
+
+
+
+
+
+
+@media (min-width: 768px){
+
+    .banner {
+        width: 88%;
+    }
+
+    .banner__img {
+        width: 65%;
+    }
+    
+
+    .banner__text {
+        width: 35%;
+        justify-content: center;
+        padding-right: 0;
+    }
+
+    .banner__ul {
+        gap: 16px;
+   }
+   
+   .banner__title {
+        font-size: 1.5rem;
+   }
+
+   .banner__subtitle {
+        font-size: 1rem;
+        font-weight: 500;
+   }
+    
+   .banner__btn {
+        padding: 6px 0;
+        font-size: 15.5px;
+        margin-top: 18px;
+   }
+
+} 
+
+
+@media (min-width: 992px) {
+
+    .banner {
+        width: 83%;
+        padding: 0;
+    }
+
+    .banner__img {
+        width: 63%;
+    }
+
+    .banner__text {
+        width: 37%;
+    }
+
+    .banner__ul {
+        gap: 20px;
+   }
+   
+   .banner__title {
+        font-size: 1.6rem;
+   }
+
+   .banner__subtitle {
+        font-size: 1.1rem;
+   }
+    
+   .banner__btn {
+        padding: 8px 0;
+        font-size: 1rem;
+        margin-top: 24px;
+   }
+
+}
+
+@media (min-width: 1200px) {
+
+    .banner__text {
+        width: 39%;
+   }
+   
+   .banner__img {
+        width: 61%;
+   }
+
+
+
+    .banner {
+        width: 75%;
+    }
+
+    
+
+    .banner__ul {
+        gap: 18px;
+   }
+   
+   .banner__title {
+        font-size: 1.8rem;
+   }
+
+   .banner__subtitle {
+        font-size: 1.2rem;
+   }
+    
+   .banner__btn {
+        padding: 10px 0;
+        font-size: 1.1rem;
+        margin-top: 22px;
+   }
+
+}
+
+
+@media (min-width: 1450px) {
+
+    .banner {
+        width: 75%;
+    }
+
+    .banner__ul {
+        gap: 24px;
+   }
+   
+   .banner__title {
+        font-size: 2.1rem;
+   }
+
+   .banner__subtitle {
+        font-size: 1.3rem;
+   }
+    
+   .banner__btn {
+        padding: 11px 0;
+        font-size: 1.3rem;
+        margin-top: 24px;
+   }
+
+}

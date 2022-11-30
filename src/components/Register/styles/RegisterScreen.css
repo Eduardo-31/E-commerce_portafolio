@@ -1,0 +1,114 @@
+.container-register {
+    padding: 55px 0;
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+}
+
+.register-card {
+        background-color: #Fff;
+        padding: 20px;
+        position: relative;
+        border-radius: 10px;
+        width: 300px;
+}
+
+.register__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3px;
+}
+
+.register__form {
+    margin-top: 3px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.container-card-create {
+    width: 100%;
+    height: 27px;
+    overflow: hidden;
+}
+
+
+.fa-circle-check {
+    font-size: 1rem;
+    color: #18a354;
+}
+
+.card-create {
+    background-color: #6de7a2;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    border-radius: 40px 40px 0 0;
+    height: 100%;
+    align-items: center;
+    transform: translateY(106%);
+    transition: transform 390ms ease;
+}
+
+.card-create-active {
+    transform: translateY(0);
+    transition: transform 420ms ease-in-out;
+}
+
+
+@media (min-width: 400px ){
+
+    .register-card {
+            padding: 20px 30px;
+            width: 350px;
+    }
+
+}
+
+@media (min-width: 530px ){
+
+    .register-card {
+            padding: 20px 42px;
+            width: 390px;
+    }
+
+}
+
+
+
+
+@media (min-width: 768px ){
+
+    .container-register {
+        padding: 82px 0;
+    }
+
+    .register-card {
+            padding: 20px 50px;
+            width: 440px;
+    }
+
+}
+
+
+
+
+@media (min-width: 1200px ){
+
+    .container-register {
+        padding: 85px 0 75px 0;
+    }
+
+    .register-card {
+            padding: 20px 71px;
+            width: 580px;
+    }
+
+    .register__title {
+        font-size: 1.8rem;
+    }
+
+}
+
