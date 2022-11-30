@@ -54,7 +54,7 @@ const ProductsInCart = ({product, index, indexClassBorderNone}) => {
         }
             
         useEffect(() => {
-          changeQuantity()
+            changeQuantity()
         }, [counter])
                 
 

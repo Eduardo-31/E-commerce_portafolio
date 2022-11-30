@@ -7,16 +7,19 @@ import { getAll, setProduct } from '../../store/slices/product.slice'
 import '../Home/styles/Product.css'
 import '../Home/styles/Home.css'
 import '../Home/styles/Product.css'
+import { getAllCart } from '../../store/slices/cart'
+import { setActiveCardAddProduct } from '../../store/slices/activeCardAddProduct'
+import getHeaderConfig from '../../utils/getHeaderConfig'
 
 
-const ProductRelated = ({product, setCounter}) => {
+const ProductRelated = ({product, setCounter, setFilterProductQuantity, setActiveRelated, setCartProductPlusQuantity, setProductRelated}) => {
 
-    const products = useSelector(state => state.product)
-
+    
     const [productFilter, setProductFilter] = useState()
     
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const cart = useSelector(state => state.cart)
     const allProducts = useSelector(state => state.product)  
 
 
@@ -35,6 +38,51 @@ const ProductRelated = ({product, setCounter}) => {
         setCounter(1)
     }
 
+
+    const addProductToCart = (relatedProduct) => {
+        setCounter(1)
+        if(!localStorage.getItem('token')){
+            return navigate('/login')
+        }
+        setActiveRelated(true)
+        setProductRelated(relatedProduct)
+        if(cart){
+            if(cart.length){
+                const filtered = cart.filter(item => item.id === relatedProduct.id)
+                setFilterProductQuantity(filtered)
+                if(filtered.length){
+                    const obj = {
+                        id: relatedProduct.id,
+                        newQuantity: filtered[0].productsInCart.quantity + 1
+                    }
+                    return axios.patch('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig())
+                    .then(res => (
+                        setCartProductPlusQuantity(true),
+                        dispatch(setActiveCardAddProduct(true)),
+                        console.log(res.data),
+                        dispatch(getAllCart())
+                    ))
+                    .catch(err => console.log(err))
+                }
+            }              
+        }
+        const obj = {
+            id: relatedProduct.id,
+            quantity: 1
+        }
+        return axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig() )
+            .then(res => (
+                console.log(res.data),
+                dispatch(setActiveCardAddProduct(true)),
+                dispatch(getAllCart())
+            ))
+            .catch(err => ( 
+             console.log(err)
+        ))
+    }  
+
+
+
   return (
     <div className='section-products'>
         {
@@ -51,7 +99,7 @@ const ProductRelated = ({product, setCounter}) => {
                                 <span>Price</span>
                                 <p> $ {product.price} </p>
                             </div>
-                            <button className='product__btn'><i className="fa-solid fa-cart-shopping"></i></button>
+                            <button onClick={(e) => (e.stopPropagation(), addProductToCart(product))} className='product__btn'><i className="fa-solid fa-cart-shopping"></i></button>
                         </div>
                     </div>
                 </article>

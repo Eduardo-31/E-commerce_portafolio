@@ -33,7 +33,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
 
-    dispatch(getAllCart())
+    localStorage.getItem('token') && dispatch(getAllCart())
     dispatch(setActiveRoute('home'))
     setBgCategory('all')
     !products.length && dispatch(getAll())

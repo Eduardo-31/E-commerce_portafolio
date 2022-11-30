@@ -24,6 +24,11 @@ const CardProduct = ({product, setGetProductId, setFilterProductQuantity, setCar
         e.stopPropagation()
          setGetProductId(product)
         
+         
+        if(!localStorage.getItem('token')){
+            return navigate('/login')
+        }
+        
         if(cart){
             if(cart.length){
                 const filtered = cart.filter(item => item.id === product.id)
@@ -44,7 +49,6 @@ const CardProduct = ({product, setGetProductId, setFilterProductQuantity, setCar
                 }
             }              
         }
-
         const obj = {
             id: product.id,
             quantity: 1

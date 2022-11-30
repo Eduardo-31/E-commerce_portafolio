@@ -7,7 +7,7 @@ import getHeaderConfig from '../../utils/getHeaderConfig'
 
 import './styles/CardAddProductToCart.css'
 
-const CardAddProductToCart = ({getProductId, productCounter = 1, setCartProductPlusQuantity, cartProductPlusQuantity = false, quantityInCart = null}) => {
+const CardAddProductToCart = ({getProductId, productCounter = 1, setCartProductPlusQuantity, cartProductPlusQuantity = false, quantityInCart = null, activeRelated, setActiveRelated}) => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -18,6 +18,9 @@ const CardAddProductToCart = ({getProductId, productCounter = 1, setCartProductP
   const toClose = () => {
     dispatch(setActiveCardAddProduct(false))
     setCartProductPlusQuantity(false)
+    if(activeRelated){
+      setActiveRelated(false)
+    }
   }
   
   const activeImg = (index) => {

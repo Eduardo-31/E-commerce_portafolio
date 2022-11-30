@@ -24,7 +24,8 @@ const ProductScreen = () => {
 
     const loading = useSelector(state => state.loading)
     const activeCardAddProduct = useSelector(state => state.activeCardAddProduct)
-    
+
+
     const [product, setProduct] = useState()
     const [indexClass, setIndexClass] = useState(0)
     const [counter, setCounter] = useState(1)
@@ -32,13 +33,16 @@ const ProductScreen = () => {
     const [cartProductPlusQuantity, setCartProductPlusQuantity] = useState(false)
     const [filterProductQuantity, setFilterProductQuantity] = useState()
     
+    const [productRelated, setProductRelated] = useState()
+    const [activeRelated, setActiveRelated] = useState(false)
+
     const cart = useSelector(state => state.cart)
 
     useEffect(() => {
-                dispatch(getAll())
-                dispatch(getAllCart())
+        dispatch(getAll())
+        localStorage.getItem('token') && dispatch(getAllCart())
     }, [])
-
+    
     useEffect(() => {
       axios.get(`https://ecommerce-api-react.herokuapp.com/api/v1/products/${id}`)
         .then(res => setProduct(res.data.data.product))
@@ -57,7 +61,11 @@ const ProductScreen = () => {
     const plusOne = () => setCounter(counter + 1)
     const minusOne = () => counter > 1 && setCounter(counter - 1)
 
-    const addProductToCart = async() => {
+    const addProductToCart = () => {
+
+        if(!localStorage.getItem('token')){
+            return navigate('/login')
+        }
 
         if(cart){
             if(cart.length){
@@ -68,15 +76,14 @@ const ProductScreen = () => {
                         id: product?.id,
                         newQuantity: filtered[0].productsInCart.quantity + counter
                     }
-                    return await axios.patch('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig())
+                    return axios.patch('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig())
                     .then(res => (
                         setCartProductPlusQuantity(true),
-                        dispatch(setActiveCardAddProduct(true),
-                        console.log(res.data)),
+                        dispatch(setActiveCardAddProduct(true)),
+                        console.log(res.data),
                         dispatch(getAllCart())
                     ))
                     .catch(err => console.log(err))
-                    .finally(() => console.log('finnally peticion'))
                 }
             }              
         }
@@ -85,19 +92,16 @@ const ProductScreen = () => {
             id: product?.id,
             quantity: counter
         }
-        return await axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig() )
+        return axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig() )
             .then(res => (
                 console.log(res.data),
-                dispatch(setActiveCardAddProduct(true),
-                dispatch(getAllCart())
-                )
+                dispatch(setActiveCardAddProduct(true)),
+                dispatch(getAllCart())            
             ))
             .catch(err => ( 
              console.log(err)
         ))
     }
-
-    
 
   return (
     <>
@@ -105,7 +109,9 @@ const ProductScreen = () => {
     {
     activeCardAddProduct && 
     <CardAddProductToCart 
-    getProductId={product} 
+    getProductId={activeRelated ? productRelated : product} 
+    setActiveRelated={setActiveRelated}
+    activeRelated={activeRelated}
     setCartProductPlusQuantity={setCartProductPlusQuantity} 
     cartProductPlusQuantity={cartProductPlusQuantity} 
     productCounter={counter} 
@@ -151,7 +157,7 @@ const ProductScreen = () => {
                 </div>
             </div>
             <p className='related-product-title'>Related Products</p>
-            <ProductRelated product={product} setCounter={setCounter} />
+            <ProductRelated product={product} setCounter={setCounter} setFilterProductQuantity={setFilterProductQuantity} setActiveRelated={setActiveRelated} setProductRelated={setProductRelated} setCartProductPlusQuantity={setCartProductPlusQuantity} />
         </div>
     </main>
     <FooterScreen />
