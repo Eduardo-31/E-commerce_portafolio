@@ -25,7 +25,8 @@ const Login = () => {
       if(e.target.children[1].value.length && e.target.children[3].value.length){
         const email = e.target.children[1].value.toLowerCase();
         const password = e.target.children[3].value.toLowerCase();
-        axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/users/login', {email,password})
+        //axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/users/login', {email,password})
+        axios.post('https://e-commerce-api.academlo.tech/api/v1/users/login', {email,password})
         .then(res => (
           localStorage.setItem("token", res.data.data.token),
           localStorage.setItem("first_name", res.data.data.user.firstName),

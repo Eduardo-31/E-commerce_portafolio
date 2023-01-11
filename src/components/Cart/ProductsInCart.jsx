@@ -11,6 +11,7 @@ const ProductsInCart = ({product, index, indexClassBorderNone}) => {
 
     const dispatch = useDispatch()
     const [productImg, setProductImg] = useState()
+    const [countErr, setCountErr] = useState(false)
     const [counter, setCounter] = useState(product.productsInCart.quantity)
 
     const getAllProducts = useSelector(state => state.product)
@@ -25,7 +26,8 @@ const ProductsInCart = ({product, index, indexClassBorderNone}) => {
 
     
         const deleteCart = () => {
-            const url = `https://ecommerce-api-react.herokuapp.com/api/v1/cart/${product.id}`
+            //const url = `https://ecommerce-api-react.herokuapp.com/api/v1/cart/${product.id}`
+            const url = `https://e-commerce-api.academlo.tech/api/v1/cart/${product.id}`
             axios.delete(url, getHeaderConfig())
                 .then(res => (
                     console.log(res.data),
@@ -35,8 +37,8 @@ const ProductsInCart = ({product, index, indexClassBorderNone}) => {
         }    
     
 
-        const plusOne = () => setCounter(counter +1)
-        const minusOne = () => counter > 1 && setCounter(counter -1)
+        const plusOne = () => (setCounter(counter +1),setCountErr(true))
+        const minusOne = () => (counter > 1 && setCounter(counter -1),setCountErr(true))
           
         
  
@@ -45,7 +47,8 @@ const ProductsInCart = ({product, index, indexClassBorderNone}) => {
                 id: product.id,
                 newQuantity: counter
             }
-            axios.patch('https://ecommerce-api-react.herokuapp.com/api/v1/cart',obj, getHeaderConfig())
+            //axios.patch('https://ecommerce-api-react.herokuapp.com/api/v1/cart',obj, getHeaderConfig())
+            axios.patch('https://e-commerce-api.academlo.tech/api/v1/cart',obj, getHeaderConfig())
                 .then(res => (
                     console.log(res.data),
                     dispatch(getAllCart())
@@ -54,7 +57,9 @@ const ProductsInCart = ({product, index, indexClassBorderNone}) => {
         }
             
         useEffect(() => {
-            changeQuantity()
+            if(countErr){          
+                changeQuantity()         
+            }
         }, [counter])
                 
 
@@ -75,7 +80,7 @@ const ProductsInCart = ({product, index, indexClassBorderNone}) => {
 
         <div className='card-shopping-product__quantity'>
             <button onClick={minusOne} > &#45; </button>
-            <p>  {counter} </p>
+            <p>  {product.productsInCart.quantity} </p>
             <button onClick={plusOne}> &#43; </button>
         </div>
 

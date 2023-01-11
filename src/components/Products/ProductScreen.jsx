@@ -44,7 +44,8 @@ const ProductScreen = () => {
     }, [])
     
     useEffect(() => {
-      axios.get(`https://ecommerce-api-react.herokuapp.com/api/v1/products/${id}`)
+      //axios.get(`https://ecommerce-api-react.herokuapp.com/api/v1/products/${id}`)
+      axios.get(`https://e-commerce-api.academlo.tech/api/v1/products/${id}`)
         .then(res => setProduct(res.data.data.product))
         .catch(err => console.log(err))
     }, [id])
@@ -76,11 +77,12 @@ const ProductScreen = () => {
                         id: product?.id,
                         newQuantity: filtered[0].productsInCart.quantity + counter
                     }
-                    return axios.patch('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig())
+                    //return axios.patch('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig())
+                    return axios.patch('https://e-commerce-api.academlo.tech/api/v1/cart', obj, getHeaderConfig())
                     .then(res => (
                         setCartProductPlusQuantity(true),
                         dispatch(setActiveCardAddProduct(true)),
-                        console.log(res.data),
+                        //console.log(res.data),
                         dispatch(getAllCart())
                     ))
                     .catch(err => console.log(err))
@@ -92,7 +94,8 @@ const ProductScreen = () => {
             id: product?.id,
             quantity: counter
         }
-        return axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig() )
+        //return axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig() )
+        return axios.post('https://e-commerce-api.academlo.tech/api/v1/cart', obj, getHeaderConfig() )
             .then(res => (
                 console.log(res.data),
                 dispatch(setActiveCardAddProduct(true)),

@@ -15,7 +15,8 @@ export const { setPurchases } = purchasesSlice.actions
 
 export const getAllPurchases = () => (dispatch) => {
     dispatch(setLoading(true))
-    axios.get('https://ecommerce-api-react.herokuapp.com/api/v1/purchases', getHeaderConfig())
+    //axios.get('https://ecommerce-api-react.herokuapp.com/api/v1/purchases', getHeaderConfig())
+    axios.get('https://e-commerce-api.academlo.tech/api/v1/purchases', getHeaderConfig())
           .then(res => {
               const purchasesSorted = res.data.data.purchases.sort(function(a,b){return new Date(b.createdAt) - new Date(a.createdAt);});
                 //setPurchases(purchasesSorted)

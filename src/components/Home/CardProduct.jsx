@@ -5,7 +5,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { setActiveCardAddProduct } from '../../store/slices/activeCardAddProduct'
 import { getAllCart } from '../../store/slices/cart'
 import getHeaderConfig from '../../utils/getHeaderConfig'
-import CardAddProductToCart from '../Shared/CardAddProductToCart'
 import './styles/Product.css'
 
 const CardProduct = ({product, setGetProductId, setFilterProductQuantity, setCartProductPlusQuantity}) => {
@@ -38,7 +37,8 @@ const CardProduct = ({product, setGetProductId, setFilterProductQuantity, setCar
                         id: product.id,
                         newQuantity: filtered[0].productsInCart.quantity + 1
                     }
-                    return axios.patch('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig())
+                    //return axios.patch('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig())
+                    return axios.patch('https://e-commerce-api.academlo.tech/api/v1/cart', obj, getHeaderConfig())
                     .then(res => (
                         dispatch(setActiveCardAddProduct(true)),
                         setCartProductPlusQuantity(true),
@@ -53,7 +53,8 @@ const CardProduct = ({product, setGetProductId, setFilterProductQuantity, setCar
             id: product.id,
             quantity: 1
         }
-        return axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig() )
+        //return axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig() )
+        return axios.post('https://e-commerce-api.academlo.tech/api/v1/cart', obj, getHeaderConfig() )
             .then(res => (
                 console.log(res.data),
                 dispatch(setActiveCardAddProduct(true)),

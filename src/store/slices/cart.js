@@ -13,7 +13,8 @@ export const cartSlice = createSlice({
 export const { setCart } = cartSlice.actions
 
 export const getAllCart = () => (dispatch) => {
-    axios.get('https://ecommerce-api-react.herokuapp.com/api/v1/cart', getHeaderConfig())
+    //axios.get('https://ecommerce-api-react.herokuapp.com/api/v1/cart', getHeaderConfig())
+    axios.get('https://e-commerce-api.academlo.tech/api/v1/cart', getHeaderConfig())
       .then(res => dispatch(setCart(res.data.data.cart.products)),
       )
       .catch(err => console.log(err))

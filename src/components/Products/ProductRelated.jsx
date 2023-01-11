@@ -55,7 +55,8 @@ const ProductRelated = ({product, setCounter, setFilterProductQuantity, setActiv
                         id: relatedProduct.id,
                         newQuantity: filtered[0].productsInCart.quantity + 1
                     }
-                    return axios.patch('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig())
+                    //return axios.patch('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig())
+                    return axios.patch('https://e-commerce-api.academlo.tech/api/v1/cart', obj, getHeaderConfig())
                     .then(res => (
                         setCartProductPlusQuantity(true),
                         dispatch(setActiveCardAddProduct(true)),
@@ -70,7 +71,8 @@ const ProductRelated = ({product, setCounter, setFilterProductQuantity, setActiv
             id: relatedProduct.id,
             quantity: 1
         }
-        return axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig() )
+        //return axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig() )
+        return axios.post('https://e-commerce-api.academlo.tech/api/v1/cart', obj, getHeaderConfig() )
             .then(res => (
                 console.log(res.data),
                 dispatch(setActiveCardAddProduct(true)),

@@ -20,9 +20,11 @@ const RegisterScreen = () => {
       }, [])
  
     const loginIn = (email, password) => {
-        axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/users/login',{email, password})
+        //axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/users/login',{email, password})
+        axios.post('https://e-commerce-api.academlo.tech/api/v1/users/login',{email, password})
             .then(res => (
                 localStorage.setItem('token', res.data.data.token),
+                console.log('token', res.data.data.token),
                 console.log(res.data)
                 ))
             .catch(err => console.log(err))
@@ -48,13 +50,13 @@ const RegisterScreen = () => {
             }
 
                 if(localStorage.getItem("token")) {                
-                return axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/users', data)
+                //return axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/users', data)
+                return axios.post('https://e-commerce-api.academlo.tech/api/v1/users', data)
                 .then(res => (
                     console.log(res.data),
                     setCreateUser(true),
                     console.log('afuera con localstorage'),
                     setTimeout(() => {
-                            console.log('adentro con local storage')
                             setCreateUser(false)
                         }, 4200))
                     )
@@ -68,9 +70,10 @@ const RegisterScreen = () => {
                 }
                 
                 
-                return axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/users', data)
+                //return axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/users', data)
+                return axios.post('https://e-commerce-api.academlo.tech/api/v1/users', data)
                 .then(res => (
-                  localStorage.setItem("token", res.data.data.token),
+                  //localStorage.setItem("token", res.data.data.token),
                   localStorage.setItem("first_name", res.data.data.user.firstName),
                   localStorage.setItem("last_name", res.data.data.user.lastName),
                   setCreateUser(true),
@@ -79,7 +82,6 @@ const RegisterScreen = () => {
                   setTimeout(() => {
                       navigate('/login')
                       setCreateUser(false)
-                      console.log('setTimeout')
                   }, 3600)
                   )
                   )
@@ -130,7 +132,7 @@ const RegisterScreen = () => {
                         <p className={!createUser ? 'login__invalid' : 'login__invalid login__invalid-opacity'}>you have created an account</p>
                         :
                         <p className={!errorCreate ? 'login__invalid' : 'login__invalid login__invalid-opacity'}> 
-                        {errorCreate === "Invalid value Password must be 8 characters long" || errorCreate === "Password must be 8 characters long" ? 'Password must be min 8 characters' : errorCreate === "Email is already taken" ? 'Email is already exists' : errorCreate  } 
+                        {errorCreate === "Invalid value Password must be 8 characters long" || errorCreate === "Password must be 8 characters long" ? 'Password must be min 6 characters' : errorCreate === "Email is already taken" ? 'Email is already exists' : errorCreate  } 
                         </p>
                         }
                     

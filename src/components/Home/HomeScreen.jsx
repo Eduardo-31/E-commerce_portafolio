@@ -11,6 +11,8 @@ import Banner from './Banner'
 import CardProduct from './CardProduct'
 import './styles/Home.css'
 import './styles/Product.css'
+import Kitchen from '../../image/kitchen.png'
+import KitchenWhite from '../../image/kitchen-white.png'
 
 const HomeScreen = () => {
 
@@ -27,13 +29,14 @@ const HomeScreen = () => {
 
   const products = useSelector(state => state.product)
   const loading = useSelector(state => state.loading)
+  const cart = useSelector(state => state.cart)
 
   const activeCardAddProduct = useSelector(state => state.activeCardAddProduct)
 
 
   useEffect(() => {
 
-    localStorage.getItem('token') && dispatch(getAllCart())
+    localStorage.getItem('token') && cart !== null &&  dispatch(getAllCart())
     dispatch(setActiveRoute('home'))
     setBgCategory('all')
     !products.length && dispatch(getAll())
@@ -70,7 +73,7 @@ const HomeScreen = () => {
       e.target.reset()
     }
   }
-  
+
 
   return (
     <>
@@ -91,19 +94,30 @@ const HomeScreen = () => {
                     <div onClick={() => categories('Smartphones')} className={bgCategory === 'Smartphones' ? 'category__circle bg-active-category' : 'category__circle'}>
                       <i className="fa-solid fa-mobile-screen"></i>
                     </div>
-                    <span className={bgCategory === 'Smartphones' ? 'category__title active-category': 'category__title'}>Smartphones</span>
+                    <span translate='no' className={bgCategory === 'Smartphones' ? 'category__title active-category': 'category__title'}>Smartphones</span>
                   </article>
                   <article className='category__card'>
                     <div onClick={() => categories('Smart TV')} className={bgCategory === 'Smart TV' ? 'category__circle bg-active-category': 'category__circle'}>
                       <i className="fa-solid fa-tv"></i>
                     </div>
-                    <span className={bgCategory === 'Smart TV' ? 'category__title active-category': 'category__title'}>Smart TV</span>
+                    <span translate='no' className={bgCategory === 'Smart TV' ? 'category__title active-category': 'category__title'}>Smart TV</span>
                   </article>
                   <article className='category__card'>
                     <div onClick={() => categories('Computers')} className={bgCategory === 'Computers' ? 'category__circle bg-active-category' : 'category__circle'}>
                       <i className="fa-solid fa-computer"></i>
                     </div>
-                  <span className={bgCategory === 'Computers' ? 'category__title active-category': 'category__title'}>Computers</span>
+                  <span translate='no' className={bgCategory === 'Computers' ? 'category__title active-category': 'category__title'}>Computers</span>
+                  </article>
+                  <article className='category__card'>
+                    <div onClick={() => categories('Kitchen')} className={bgCategory === 'Kitchen' ? 'category__circle bg-active-category' : 'category__circle'}>
+                      {
+                        bgCategory === 'Kitchen' ?
+                        <img src={KitchenWhite} alt="" />
+                        :
+                        <img src={Kitchen} alt="" />
+                        }
+                    </div>
+                  <span translate='no' className={bgCategory === 'Kitchen' ? 'category__title active-category': 'category__title'}>Kitchen</span>
                   </article>
                 </div>
               </div>

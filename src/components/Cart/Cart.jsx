@@ -38,7 +38,6 @@ const Cart = () => {
     
     const indexClassBorderNone = cart?.length -1
 
-
     const toPay = () => {
         const destiny = {
           "street": "Green St. 1456",
@@ -48,7 +47,9 @@ const Cart = () => {
           "references": "Some references"
       }
       
-      const url = 'https://ecommerce-api-react.herokuapp.com/api/v1/purchases'
+      
+      //const url = 'https://ecommerce-api-react.herokuapp.com/api/v1/purchases'
+      const url = 'https://e-commerce-api.academlo.tech/api/v1/purchases'
       axios.post(url,destiny, getHeaderConfig())
         .then(res => (
           console.log(res.data),
@@ -59,9 +60,11 @@ const Cart = () => {
 
 
   return (
+    
+    
     <main>
-
-      <div className='container-shopping-cart'>
+      
+        <div className='container-shopping-cart'>
         <div className='container-cart-title'>
           <p className='cart-title'>shopping cart</p>
           <span className='cart-signo'>&#62;</span>
@@ -69,10 +72,13 @@ const Cart = () => {
         </div>
         <div className='line-header-cart'>
         </div>
+        
         <div className='container-grid-shooping'>
-          <div>
+ 
+            <div>
             {
-              items ?
+              
+              cart?.length ?
               cart?.map((product, index) => <ProductsInCart index={index} indexClassBorderNone={indexClassBorderNone} key={product.id} product={product} />)
               :
                 <div className='cart-items-null'>
@@ -105,9 +111,9 @@ const Cart = () => {
           </div>
 
         </div>
-      </div>
+      </div> 
      
-
+      
     </main>
   )
 }

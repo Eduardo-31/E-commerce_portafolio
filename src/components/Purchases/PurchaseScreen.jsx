@@ -15,6 +15,7 @@ export const PurchaseScreen = () => {
     const navigate = useNavigate()
 
     const purchases = useSelector(state => state.purchases)
+    const loading = useSelector(state => state.loading)
 
     useEffect(() => {
       dispatch(setActiveRoute('purchases'))
@@ -22,26 +23,30 @@ export const PurchaseScreen = () => {
     }, [])
     
     
-   
-    console.log(purchases)
+  
 
   return (
     <main>
       <section className='section-purchases'>
           <h5 className='purchase-title'>My Purchases</h5>
+
             {
+
+              !loading &&
+
               !purchases.length ?
               <div className='container-purchases-null'>
                 <p className='purcharses-null__hello'>&#161;Hello, greetings <span className='purchases-null__name'>{localStorage.getItem('first_name')} {localStorage.getItem('last_name')}</span>, on behalf of the entire Tech Shop family&#33;</p>
                 <p className='purchases-null__text'>We inform you that so far you have not made any purchase (Checkout).</p>
                 <p className='purchases-null__text'>click <span onClick={() => navigate('/')} className='purchases-null__link'>here</span> to see products.</p>
               </div>
-              :
+              : 
               <div className='container-purchases'>
               {
                 purchases?.map(purchase => <CardPurchases key={purchase.id} purchase={purchase} />)
               }
-              </div>   
+              </div>
+              
             }
       </section>
     </main>
