@@ -44,7 +44,7 @@ const FooterScreen = () => {
             </div>
         </div>
         <div className='footer-text'>
-            <p>all rights reserved @2022 </p>
+            <p>all rights reserved </p>
             <p>developed and designed by eduardo-dev</p>
         </div>
     </div>

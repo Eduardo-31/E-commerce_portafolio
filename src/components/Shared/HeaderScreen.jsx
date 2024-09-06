@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import './styles/HeaderScreen.css'
 import logo from '../../image/banner-header.png'
 import { NavLink, useNavigate } from 'react-router-dom'
@@ -25,6 +25,23 @@ const HeaderScreen = () => {
         navigate('/')
     }
 
+
+    const navb = () => {
+        if(localStorage.getItem('token')){
+            return '/account'
+        }
+
+        if(!localStorage.getItem('token') && activeRoute != 'login' || 'register' ){
+            return '/login'
+        }
+
+        return activeRoute
+
+
+    }
+    
+
+    console.log(activeRoute)
   return (
     <header className='header'>
         <div className='card-titles'>
@@ -40,9 +57,9 @@ const HeaderScreen = () => {
                     </NavLink>
                 </li>
                 <li className="navbar__li">
-                    <NavLink to='/login' className="navbar__link">
-                        <i className={activeRoute === 'login' ? "active fa-solid fa-user" : "fa-solid fa-user"}></i>
-                        <p>{localStorage.getItem('token') ? 'Account' : 'Login'}</p>
+                    <NavLink to={navb()} className="navbar__link">
+                        <i className={activeRoute === 'login' || 'account' || 'register' ? "active fa-solid fa-user" : "fa-solid fa-user"}></i>
+                        <p>{localStorage.getItem('token') ? 'Account' : (!localStorage.getItem('token') && activeRoute != 'login' || 'register' ) ? 'login' : activeRoute}</p>
                     </NavLink>
                 </li>
                 <li className="navbar__li">

@@ -3,8 +3,8 @@ import product from './slices/product.slice'
 import activeRoute from './slices/activeRoute'
 import loading from './slices/loading'
 import purchases from './slices/purchases.slice'
-import activeCardAddProduct from './slices/activeCardAddProduct'
 import cart from './slices/cart'
+import categories from './slices/categories.slice'
 
 
 
@@ -14,7 +14,7 @@ export default configureStore ({
         activeRoute,
         loading,
         purchases,
-        activeCardAddProduct,
-        cart
+        cart,
+        categories
     }
 })

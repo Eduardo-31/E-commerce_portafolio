@@ -2,7 +2,6 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { setActiveCardAddProduct } from '../../store/slices/activeCardAddProduct'
 import { getAllCart } from '../../store/slices/cart'
 import { getAll } from '../../store/slices/product.slice'
 import getHeaderConfig from '../../utils/getHeaderConfig'
@@ -14,158 +13,181 @@ import ProductImages from './ProductImages'
 import ProductRelated from './ProductRelated'
 
 import './styles/ProductScreen.css'
+import { setLoading } from '../../store/slices/loading'
+import { useRef } from 'react'
 
 const ProductScreen = () => {
 
-    const {id} = useParams()
+    const [product, setProduct] = useState()
+    const [activeImageId, setActiveImageId] = useState(null)
+    const [counter, setCounter] = useState(1)
+
+    const selectedScrollY = useRef(null)
+    const [productInCart, setProductInCart] = useState(null)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    const allProducts = useSelector(state => state.product)  
     const loading = useSelector(state => state.loading)
-    const activeCardAddProduct = useSelector(state => state.activeCardAddProduct)
-
-
-    const [product, setProduct] = useState()
-    const [indexClass, setIndexClass] = useState(0)
-    const [counter, setCounter] = useState(1)
-    // 
-    const [cartProductPlusQuantity, setCartProductPlusQuantity] = useState(false)
-    const [filterProductQuantity, setFilterProductQuantity] = useState()
-    
-    const [productRelated, setProductRelated] = useState()
-    const [activeRelated, setActiveRelated] = useState(false)
-
     const cart = useSelector(state => state.cart)
 
-    useEffect(() => {
-        dispatch(getAll())
-        localStorage.getItem('token') && dispatch(getAllCart())
-    }, [])
+    const {id} = useParams()
     
     useEffect(() => {
-      //axios.get(`https://ecommerce-api-react.herokuapp.com/api/v1/products/${id}`)
-      axios.get(`https://e-commerce-api.academlo.tech/api/v1/products/${id}`)
-        .then(res => setProduct(res.data.data.product))
+        const handleScroll = () => {
+            selectedScrollY.current = window.scrollY
+        };
+        window.addEventListener('scroll', handleScroll);
+        if(selectedScrollY.current) window.scrollTo({top: 0, behavior: 'smooth'})
+
+        if(!allProducts.length){
+            dispatch(getAll())
+        } 
+        dispatch(setLoading(true))
+        axios.get(`https://e-commerce-api-v2.academlo.tech/api/v1/products/${id}`)
+        .then(res => {
+            setActiveImageId(res.data.images[0].id)
+            setProduct(res.data)
+        })
         .catch(err => console.log(err))
+        .finally(() => dispatch(setLoading(false)))
+        
+        // Limpia el listener cuando el componente se desmonta
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
     }, [id])
 
 
-    const changeClassImg = (index) => {
-        setIndexClass(index)
+    const addToCartRequest = (product, method, obj, cartId=null) => {
+        dispatch(setLoading(true))
+        let url = 'https://e-commerce-api-v2.academlo.tech/api/v1/cart/'
+            if(cartId){
+                url += cartId
+            }
+            axios[method](url, obj, getHeaderConfig())
+            .then(res => {
+                dispatch(getAllCart())
+                // show aggregate information
+                setProductInCart(() =>{
+                    const newState = {...res.data}
+                    newState.product = product
+                    return newState
+                })
+            })
+        .catch(err => console.log(err))
+        .finally(() => console.log(dispatch(setLoading(false))))
     }
 
-    const goToHome = () => {
-        navigate('/')
-    }
-
-    const plusOne = () => setCounter(counter + 1)
-    const minusOne = () => counter > 1 && setCounter(counter - 1)
-
-    const addProductToCart = () => {
-
+    const addProductToCart = (product, count=null) => {
+        
         if(!localStorage.getItem('token')){
             return navigate('/login')
         }
+        if(!count){
+            setCounter(1)
+        }
 
-        if(cart){
-            if(cart.length){
-                const filtered = cart.filter(item => item.id === product.id)
-                setFilterProductQuantity(filtered)
-                if(filtered.length){
-                    const obj = {
-                        id: product?.id,
-                        newQuantity: filtered[0].productsInCart.quantity + counter
-                    }
-                    //return axios.patch('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig())
-                    return axios.patch('https://e-commerce-api.academlo.tech/api/v1/cart', obj, getHeaderConfig())
-                    .then(res => (
-                        setCartProductPlusQuantity(true),
-                        dispatch(setActiveCardAddProduct(true)),
-                        //console.log(res.data),
-                        dispatch(getAllCart())
-                    ))
-                    .catch(err => console.log(err))
+        if(cart.length){
+            const filtered = cart.filter(item => item.productId === product.id)
+            if(filtered.length){
+                const cartId = filtered[0].id
+                const obj = {
+                    quantity: filtered[0].quantity + (count || 1)
                 }
-            }              
-        }
-
+                
+                addToCartRequest(product, 'put', obj, cartId)
+                return
+            }   
+        }        
         const obj = {
-            id: product?.id,
-            quantity: counter
+            productId: product.id,
+            quantity: (count || 1)
         }
-        //return axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig() )
-        return axios.post('https://e-commerce-api.academlo.tech/api/v1/cart', obj, getHeaderConfig() )
-            .then(res => (
-                console.log(res.data),
-                dispatch(setActiveCardAddProduct(true)),
-                dispatch(getAllCart())            
-            ))
-            .catch(err => ( 
-             console.log(err)
-        ))
+
+        addToCartRequest(product, 'post', obj)
+        return
     }
 
-  return (
-    <>
-    { loading && <Loading /> }
-    {
-    activeCardAddProduct && 
-    <CardAddProductToCart 
-    getProductId={activeRelated ? productRelated : product} 
-    setActiveRelated={setActiveRelated}
-    activeRelated={activeRelated}
-    setCartProductPlusQuantity={setCartProductPlusQuantity} 
-    cartProductPlusQuantity={cartProductPlusQuantity} 
-    productCounter={counter} 
-    quantityInCart={filterProductQuantity} 
-     />  
-    }
-    <HeaderScreen />
-    <main>
-        <div className='container-product-screen'>
-            <div className='product-screen-header'>
-                <p onClick={goToHome} className='product-screen-header__home'>Home</p>
-                <span className='product-screen-header__span'>&#62; </span>
-                <p className='product-screen-header__name'>{ product?.title} </p>
-            </div>
-            <div className='container-product-header'>     
-                <div className='container-slider'>
-                    <div className='slider'>
-                        {
-                            product?.productImgs.map((imgs, index) => (
-                            <ProductImages indexClass={indexClass} index={index} key={imgs} imgs={imgs}/>
-                            ))
-                        }
-                    </div>
-            
-                    <div  className='slider-img-miniaturas'>
+    const changeClassImg = (id) => setActiveImageId(id)
 
-                        {
-                            product?.productImgs.map((imgs, index) => (
-                            <img className={indexClass === index ? 'slider-img__footer slider-active__footer' : 'slider-img__footer'} onClick={() => changeClassImg(index)} key={imgs} src={imgs}/>))
-                        }
-                    </div>
-                </div>
-                <div className='container-product-info'>
-                    <p className='product-info__title'> {product?.title} </p>
-                    <p className='product-info__description'> {product?.description} </p>
-                    <span className='product-info__price'>$ {product?.price} </span>    
-                    <div className='product-info__counter'>
-                        <button className='product-info__btn' onClick={minusOne}>&#45;</button>
-                        <label className='product-info__btn-index'> {counter} </label>
-                        <button className='product-info__btn' onClick={plusOne}>&#43;</button>
-                    </div>
-                    <button onClick={addProductToCart} className='product-info__btn-add-to-cart'>add to cart</button>
-                </div>
-            </div>
-            <p className='related-product-title'>Related Products</p>
-            <ProductRelated product={product} setCounter={setCounter} setFilterProductQuantity={setFilterProductQuantity} setActiveRelated={setActiveRelated} setProductRelated={setProductRelated} setCartProductPlusQuantity={setCartProductPlusQuantity} />
-        </div>
-    </main>
-    <FooterScreen />
-    </>
-  )
+    const goToHome = () => navigate('/')
+
+    const plusOne = () => counter < 10 && setCounter(counter + 1)
+    const minusOne = () => counter > 1 && setCounter(counter - 1)
+
+    return (
+        <>
+        {
+            loading && !product ?
+            <Loading />
+            :
+            <>
+            {
+                loading &&
+                <Loading />
+            }
+            {
+                productInCart && 
+                <CardAddProductToCart 
+                productCounter={counter}
+                productInCart={productInCart}
+                setProductInCart={setProductInCart}
+                />  
+            }
+                <HeaderScreen />
+                    <main>
+                        <div className='container-product-screen'>
+                            <div className='product-screen-header'>
+                                <p onClick={goToHome} className='product-screen-header__home'>Home</p>
+                                <span className='product-screen-header__span'>&#62; </span>
+                                <p className='product-screen-header__name'>{ product?.title} </p>
+                            </div>
+                            <div className='container-product-header'>     
+                                <div className='container-slider'>
+                                    <div className='slider'>
+                                        {
+                                            product?.images.map((img) => (
+                                                <ProductImages key={img.id} img={img} activeImageId={activeImageId}/>
+                                            ))
+                                        }
+                                    </div>
+                            
+                                    <div  className='slider-img-miniaturas'>
+
+                                        {
+                                            product?.images.map((img) => (
+                                            <img className={activeImageId === img.id ? 'slider-img__footer slider-active__footer' : 'slider-img__footer'} onClick={() => changeClassImg(img.id)} key={img.id} src={img.url} loading='lazy'/>))
+                                        }
+                                    </div>
+                                </div>
+                                <div className='container-product-info'>
+                                    <p className='product-info__title'> {product?.title} </p>
+                                    <p className='product-info__description'> {product?.description} </p>
+                                    <span className='product-info__price'>$ {product?.price} </span>    
+                                    <div className='product-info__counter'>
+                                        <button className='product-info__btn' onClick={minusOne}>&#45;</button>
+                                        <label className='product-info__btn-index'> {counter} </label>
+                                        <button className='product-info__btn' onClick={plusOne}>&#43;</button>
+                                    </div>
+                                    <button onClick={() => addProductToCart(product, counter)} className='product-info__btn-add-to-cart'>add to cart</button>
+                                </div>
+                            </div>
+                            {
+                                (product && allProducts.length) &&
+                                <>
+                                    <p className='related-product-title'>Related Products</p>
+                                    <ProductRelated product={product} setCounter={setCounter} addProductToCart={addProductToCart} />
+                                </>
+                            }
+                        </div>
+                    </main>
+                <FooterScreen />
+            </>
+        }
+        </>
+    )
 }
 
 export default ProductScreen

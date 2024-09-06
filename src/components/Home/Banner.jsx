@@ -7,7 +7,7 @@ const Banner = () => {
     const navigate = useNavigate()
 
     const goToProductBanner = () => {
-        navigate('/product/62')
+        navigate('/product/13')
     } 
 
     

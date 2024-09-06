@@ -1,10 +1,11 @@
 import {createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import getHeaderConfig from '../../utils/getHeaderConfig'
+import { setLoading } from './loading'
 
 export const cartSlice = createSlice({
     name: 'cart',
-    initialState: null,
+    initialState: [],
     reducers: {
         setCart: (state, action) => action.payload
     }
@@ -13,11 +14,11 @@ export const cartSlice = createSlice({
 export const { setCart } = cartSlice.actions
 
 export const getAllCart = () => (dispatch) => {
-    //axios.get('https://ecommerce-api-react.herokuapp.com/api/v1/cart', getHeaderConfig())
-    axios.get('https://e-commerce-api.academlo.tech/api/v1/cart', getHeaderConfig())
-      .then(res => dispatch(setCart(res.data.data.cart.products)),
-      )
+    dispatch(setLoading(true))
+    axios.get('https://e-commerce-api-v2.academlo.tech/api/v1/cart', getHeaderConfig())
+      .then(res => dispatch(setCart(res.data)))
       .catch(err => console.log(err))
+      .finally(() => dispatch(setLoading(false)))
 }
 
 

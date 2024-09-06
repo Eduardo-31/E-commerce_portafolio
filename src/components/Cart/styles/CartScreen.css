@@ -472,11 +472,10 @@
 
 
 .place_order-null {
-    
     color: rgb(180, 177, 177);
-    cursor: not-allowed;
     background-color: rgb(229, 229, 229) !important;
-    pointer-events:none;
+    pointer-events: none;
+    cursor: not-allowed;
 }
 
 .cart-items-null {

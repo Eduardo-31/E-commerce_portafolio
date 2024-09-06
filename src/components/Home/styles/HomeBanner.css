@@ -120,7 +120,7 @@
 
 
     .banner {
-        width: 90%;
+        width: 92%;
         margin: 0 auto;
         border-radius: 7px;
     }
@@ -135,11 +135,6 @@
 
 @media (min-width: 625px){
 
-    .banner {
-        width: 90%;
-        margin: 0 auto;
-        border-radius: 7px;
-    }
 
     .banner__text {
         padding-right: 14px;
@@ -177,11 +172,11 @@
 @media (min-width: 768px){
 
     .banner {
-        width: 88%;
+        width: 92%;
     }
 
     .banner__img {
-        width: 65%;
+        width: 67%;
     }
     
 
@@ -216,12 +211,8 @@
 @media (min-width: 992px) {
 
     .banner {
-        width: 83%;
+        width: 84%;
         padding: 0;
-    }
-
-    .banner__img {
-        width: 63%;
     }
 
     .banner__text {
@@ -261,7 +252,7 @@
 
 
     .banner {
-        width: 75%;
+        width: 80%;
     }
 
     
@@ -288,10 +279,6 @@
 
 
 @media (min-width: 1450px) {
-
-    .banner {
-        width: 75%;
-    }
 
     .banner__ul {
         gap: 24px;

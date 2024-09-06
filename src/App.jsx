@@ -7,6 +7,7 @@ import ProductScreen from './components/Products/ProductScreen'
 import Cart from './components/Cart/Cart'
 import RegisterScreen from './components/Register/RegisterScreen'
 import Error404 from './components/404/Error404'
+import AccountScreen from './components/Account/AccountScreen'
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route element={<ProtecteRoute />}>
             <Route path='/purchases' element={<PurchaseScreen />} />
             <Route path='/cart' element={<Cart />} />
+            <Route path='/account' element={<AccountScreen />} />
         </Route>
         <Route path='*'  element={<Error404 />} />
       </Routes>

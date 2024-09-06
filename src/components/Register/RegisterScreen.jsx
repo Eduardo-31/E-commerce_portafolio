@@ -9,7 +9,6 @@ import axios from 'axios'
 
 const RegisterScreen = () => {
 
-
     const [createUser, setCreateUser] = useState(false)
     const [errorCreate, setErrorCreate] = useState(null)
   
@@ -20,13 +19,16 @@ const RegisterScreen = () => {
       }, [])
  
     const loginIn = (email, password) => {
-        //axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/users/login',{email, password})
-        axios.post('https://e-commerce-api.academlo.tech/api/v1/users/login',{email, password})
-            .then(res => (
-                localStorage.setItem('token', res.data.data.token),
-                console.log('token', res.data.data.token),
-                console.log(res.data)
-                ))
+        axios.post('https://e-commerce-api-v2.academlo.tech/api/v1/users/login',{email, password})
+            .then(res => {
+                localStorage.setItem('token', res.data.token)
+                localStorage.setItem("first_name", res.data.user.firstName)
+                localStorage.setItem("last_name", res.data.user.lastName)
+                setTimeout(() => {
+                    navigate('/account')
+                    setCreateUser(false)
+                }, 3600)
+            })
             .catch(err => console.log(err))
     }
 
@@ -40,57 +42,43 @@ const RegisterScreen = () => {
         const password = e.target.password.value
 
             if(firstName.length && lastName.length && email.length && password.length){
-            const data = {
-                firstName,
-                lastName,
-                email,
-                password,
-                phone: "1234567891",
-                role: "admin"
-            }
+                const data = {
+                    firstName,
+                    lastName,
+                    email,
+                    password,
+                    phone: "1234567891",
+                    role: "admin"
+                }
 
                 if(localStorage.getItem("token")) {                
-                //return axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/users', data)
-                return axios.post('https://e-commerce-api.academlo.tech/api/v1/users', data)
-                .then(res => (
-                    console.log(res.data),
-                    setCreateUser(true),
-                    console.log('afuera con localstorage'),
-                    setTimeout(() => {
-                            setCreateUser(false)
-                        }, 4200))
-                    )
-                  .catch(err => (
-                    console.log(err),
-                    setErrorCreate(err.response.data.message),
-                    setTimeout(() => {
-                        setErrorCreate(false)
-                    }, 2800)
+                    return axios.post('https://e-commerce-api-v2.academlo.tech/api/v1/users', data)
+                    .then(res => (
+                        setCreateUser(true),
+                        setTimeout(() => {
+                                setCreateUser(false)
+                            }, 4200))
+                        )
+                    .catch(err => (
+                        console.log(err),
+                        setErrorCreate(err.response.data.message),
+                        setTimeout(() => {
+                            setErrorCreate(false)
+                        }, 2800)
                     ))
                 }
                 
-                
-                //return axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/users', data)
-                return axios.post('https://e-commerce-api.academlo.tech/api/v1/users', data)
-                .then(res => (
-                  //localStorage.setItem("token", res.data.data.token),
-                  localStorage.setItem("first_name", res.data.data.user.firstName),
-                  localStorage.setItem("last_name", res.data.data.user.lastName),
-                  setCreateUser(true),
-                  console.log(res.data),
-                  loginIn(email, password),
-                  setTimeout(() => {
-                      navigate('/login')
-                      setCreateUser(false)
-                  }, 3600)
-                  )
-                  )
-                  .catch(err => (
-                    console.log(err),
-                    setErrorCreate(err.response.data.message),
-                    setTimeout(() => {
-                        setErrorCreate(false)
-                    }, 2800)
+                return axios.post('https://e-commerce-api-v2.academlo.tech/api/v1/users', data)
+                    .then(res => {
+                        setCreateUser(true)
+                        loginIn(email, password)
+                    })
+                    .catch(err => (
+                        console.log(err),
+                        setErrorCreate(err.response.data.message),
+                        setTimeout(() => {
+                            setErrorCreate(false)
+                        }, 2800)
                     ))
             }
 

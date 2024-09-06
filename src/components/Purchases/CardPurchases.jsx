@@ -26,7 +26,7 @@ const CardPurchases = ({purchase}) => {
         </div>
         <div className='purchase-card__main'>
             {
-                purchase.cart.products.map(purchased => <CardPurchaseMain key={purchased.id} purchased={purchased} />)
+                purchase.purchased.map(purchased => <CardPurchaseMain key={purchased.id} purchased={purchased} />)
             }
         </div>
     </article>

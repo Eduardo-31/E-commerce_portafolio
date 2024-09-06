@@ -2,74 +2,73 @@ import axios from 'axios'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { setActiveCardAddProduct } from '../../store/slices/activeCardAddProduct'
 import { getAllCart } from '../../store/slices/cart'
 import getHeaderConfig from '../../utils/getHeaderConfig'
 import './styles/Product.css'
+import { setLoading } from '../../store/slices/loading'
 
-const CardProduct = ({product, setGetProductId, setFilterProductQuantity, setCartProductPlusQuantity}) => {
+const CardProduct = ({product, setProductInCart}) => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const cart = useSelector(state => state.cart)
 
-
     const goToProduct = () => {
         navigate(`/product/${product.id}`)
     }
 
-    const activeCardAddProductFns  = (e) => {
+    const addToCartRequest = (method, obj, cartId=null) => {
+        dispatch(setLoading(true))
+        let url = 'https://e-commerce-api-v2.academlo.tech/api/v1/cart/'
+            if(cartId){
+                url += cartId
+            }
+            axios[method](url, obj, getHeaderConfig())
+            .then(res => {  
+                dispatch(getAllCart())
+                setProductInCart(() =>{
+                    const newState = {...res.data}
+                    newState.product = product
+                    return newState
+                })
+            })
+        .catch(err => console.log(err))
+        .finally(() => dispatch(setLoading(false)))
+    }
+
+    const addProductToCart  = (e) => {
         e.stopPropagation()
-         setGetProductId(product)
-        
-         
         if(!localStorage.getItem('token')){
             return navigate('/login')
         }
         
-        if(cart){
-            if(cart.length){
-                const filtered = cart.filter(item => item.id === product.id)
-                setFilterProductQuantity(filtered)
-                if(filtered.length){
-                    const obj = {
-                        id: product.id,
-                        newQuantity: filtered[0].productsInCart.quantity + 1
-                    }
-                    //return axios.patch('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig())
-                    return axios.patch('https://e-commerce-api.academlo.tech/api/v1/cart', obj, getHeaderConfig())
-                    .then(res => (
-                        dispatch(setActiveCardAddProduct(true)),
-                        setCartProductPlusQuantity(true),
-                        console.log(res.data)),
-                        dispatch(getAllCart())
-                    )
-                    .catch(err => console.log(err))
+        if(cart.length){
+            const filtered = cart.filter(item => item.productId === product.id)
+            if(filtered.length){
+                const cartId = filtered[0].id
+                const obj = {
+                    quantity: filtered[0].quantity + 1
                 }
-            }              
+                addToCartRequest('put', obj, cartId)
+                return
+            }
         }
+
         const obj = {
-            id: product.id,
+            productId: product.id,
             quantity: 1
         }
-        //return axios.post('https://ecommerce-api-react.herokuapp.com/api/v1/cart', obj, getHeaderConfig() )
-        return axios.post('https://e-commerce-api.academlo.tech/api/v1/cart', obj, getHeaderConfig() )
-            .then(res => (
-                console.log(res.data),
-                dispatch(setActiveCardAddProduct(true)),
-                dispatch(getAllCart())
-            ))
-            .catch(err => console.log(err))
+        addToCartRequest('post',obj)
+        return
     }
-
 
   return (
     <div>
     <article onClick={goToProduct}  className='product-card'>
         <div className='product__img'>
-            <img className='product__img-back' src={product.productImgs[1]} alt="" />
-            <img className='product__img-front' src={product.productImgs[0]} alt="" />
+            <img className='product__img-back' src={product.images[1].url} alt="" />
+            <img className='product__img-front' src={product.images[0].url} alt="" />
         </div>
         <div className='product__text'>
             <h4 className='product__title'> {product.title} </h4>
@@ -78,10 +77,9 @@ const CardProduct = ({product, setGetProductId, setFilterProductQuantity, setCar
                     <span>Price</span>
                     <p> $ {product.price} </p>
                 </div>
-                <button onClick={activeCardAddProductFns} className='product__btn'><i className="fa-solid fa-cart-shopping"></i></button>
+                <button onClick={addProductToCart} className='product__btn'><i className="fa-solid fa-cart-shopping"></i></button>
             </div>
         </div>
-
     </article>
     </div>
   )

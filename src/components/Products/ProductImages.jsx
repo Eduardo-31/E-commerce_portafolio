@@ -1,11 +1,11 @@
 import React from 'react'
 
-const ProductImages = ({imgs, index, indexClass}) => {
+const ProductImages = ({img, activeImageId}) => {
 
 
   return (
-    <div className={indexClass === index ? `slider__container-imgs slider-active` : `slider__container-imgs`} >
-        <img className='slider__img' src={imgs} alt="" />
+    <div className={activeImageId === img.id ? `slider__container-imgs slider-active` : `slider__container-imgs`} >
+        <img className='slider__img' src={img.url} loading='lazy' alt="" />
     </div>
     
   )
